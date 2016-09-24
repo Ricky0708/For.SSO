@@ -50,8 +50,7 @@ namespace For.SSO.Web.Controllers
                 var p = _signInManager.SignIn("AA",
                     new Microsoft.AspNetCore.Http.Authentication.AuthenticationProperties()
                     {
-                        IsPersistent = true,
-                        RedirectUri = "http://google.com.tw"
+                        IsPersistent = true
                     }).Result;
                 //return View(model);
                 if (p.Succeeded)

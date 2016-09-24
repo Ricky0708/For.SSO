@@ -58,18 +58,8 @@ namespace For.SSO.Web
             }
             app.UseStaticFiles();
 
-            app.UseCookieAuthentication(new CookieAuthenticationOptions()
-            {
-                AuthenticationScheme = "AA",
-                ExpireTimeSpan = new TimeSpan(0, 0, 10),
-                AutomaticAuthenticate = true,
-                AutomaticChallenge = true,
-                LoginPath = new PathString("/Account/Login"),
-                AccessDeniedPath = new PathString("/Account/Login"),
-            });
 
-            //custom middleware to replace httpContext.user
-            app.UseReplacePrincipal();
+            Configurations.ConfiguraAuthentication(app);
 
             app.UseMvc(routes =>
             {
@@ -88,6 +78,25 @@ namespace For.SSO.Web
                 Configuration.GetValue<string>("Provider"),
                 Configuration.GetValue<string>("UserID"),
                 Configuration.GetValue<string>("Password"));
+        }
+    }
+
+    internal static class Configurations
+    {
+        internal static void ConfiguraAuthentication(IApplicationBuilder app)
+        {
+            app.UseCookieAuthentication(new CookieAuthenticationOptions()
+            {
+                AuthenticationScheme = "AA",
+                ExpireTimeSpan = new TimeSpan(0, 20, 0),
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                LoginPath = new PathString("/Account/Login"),
+                AccessDeniedPath = new PathString("/Account/Login"),
+            });
+
+            //custom middleware to replace httpContext.user
+            app.UseReplacePrincipal();
         }
     }
 }
