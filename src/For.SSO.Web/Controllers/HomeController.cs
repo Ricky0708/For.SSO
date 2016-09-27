@@ -7,14 +7,13 @@ using For.SSO.DB.Models;
 using For.SSO.Services.Repository;
 using For.SSO.Services;
 using Microsoft.AspNetCore.Authorization;
+using For.SSO.AuthenticationManager;
 
 namespace For.SSO.Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : _baseController
     {
-      
-
-        public HomeController()
+        public HomeController(IServiceProvider serviceProvider) : base(serviceProvider)
         {
         }
 
@@ -33,14 +32,8 @@ namespace For.SSO.Web.Controllers
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
+            return RedirectToAction(nameof(AccountController.LogOff), "Account");
         }
 
-        public IActionResult Error()
-        {
-            return View();
-        }
     }
 }

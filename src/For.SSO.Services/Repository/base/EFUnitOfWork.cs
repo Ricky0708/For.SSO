@@ -14,7 +14,7 @@ namespace For.SSO.Services.Repository
 
         public EFUnitOfWork()
         {
-            Context = new DB.Models.SSOEntities(DB.Models.DBConfiguration.entityConnection);
+            Context = new DB.Models.SSOEntities(DB.Models.DBConfiguration.GetDBConnection());
         }
 
         public void Commit()

@@ -9,6 +9,7 @@ using For.SSO.DB.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using For.SSO.AuthenticationManager;
+using Microsoft.AspNetCore.Diagnostics;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,12 +18,10 @@ namespace For.SSO.Web.Controllers
     public class AccountController : _baseController
     {
         IAccountRepository repo = (IAccountRepository)RepositoryHelper.GetRepository<Account>();
-        HttpContextService _contextService;
         SignInManager _signInManager;
 
-        public AccountController(IServiceProvider serviceProvider, SignInManager signInManager)
+        public AccountController(IServiceProvider serviceProvider, SignInManager signInManager) : base(serviceProvider)
         {
-            _contextService = (HttpContextService)serviceProvider.GetService(typeof(HttpContextService));
             _signInManager = signInManager;
         }
 
@@ -44,7 +43,7 @@ namespace For.SSO.Web.Controllers
         public IActionResult Login(AccountViewModel model, [FromQuery] string returnUrl)
         {
 
-             ViewData["ReturnUrl"] = returnUrl;
+            ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
                 var p = _signInManager.SignIn("AA",
@@ -56,7 +55,8 @@ namespace For.SSO.Web.Controllers
                 if (p.Succeeded)
                 {
                     return Redirect(returnUrl);
-                }else
+                }
+                else
                 {
                     return View(model);
                 }
@@ -67,5 +67,15 @@ namespace For.SSO.Web.Controllers
             }
         }
 
+
+        //
+        // POST: /Account/LogOff
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LogOff()
+        {
+            await _signInManager.SignOut("AA");
+            return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using For.SSO.AuthenticationManager;
+using For.SSO.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,14 @@ using System.Threading.Tasks;
 
 namespace For.SSO.Web.Controllers
 {
-    public class _baseController: Controller
+    public class _baseController : Controller
     {
+        protected HttpContextService _contextService;
+
+        public _baseController(IServiceProvider serviceProvider)
+        {
+            _contextService = (HttpContextService)serviceProvider.GetService(typeof(HttpContextService));
+        }
+
     }
 }

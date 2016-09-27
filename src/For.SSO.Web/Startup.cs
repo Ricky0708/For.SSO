@@ -50,14 +50,18 @@ namespace For.SSO.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                //app.UseExceptionHandler("/Errors/ErrorHandler");
+                app.UseStatusCodePagesWithReExecute("/Errors/ErrorStatusCode/{0}");
                 app.UseBrowserLink();
             }
             else
             {
+                app.UseExceptionHandler("/Errors/ErrorHandler");
+                app.UseStatusCodePagesWithReExecute("/Errors/ErrorStatusCode/{0}");
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseStaticFiles();
-
+            //app.UseStatusCodePages();
 
             Configurations.ConfiguraAuthentication(app);
 
@@ -68,10 +72,10 @@ namespace For.SSO.Web
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
- 
+
             //app.UseCookieAuthentication()
             //Services.Repository.RepositoryHelper.connStr = Configuration.GetValue<string>("SSOEntities");
-            DB.Models.DBConfiguration.SetDBConnection(
+            DB.Models.DBConfiguration.SetDBConnectionProperty(
                 Configuration.GetValue<string>("MetaData"),
                 Configuration.GetValue<string>("Server"),
                 Configuration.GetValue<string>("Database"),
@@ -97,6 +101,7 @@ namespace For.SSO.Web
 
             //custom middleware to replace httpContext.user
             app.UseReplacePrincipal();
+
         }
     }
 }

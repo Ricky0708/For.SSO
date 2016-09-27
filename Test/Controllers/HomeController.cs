@@ -23,8 +23,7 @@ namespace Test.Controllers
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
-
-            return View();
+            return RedirectToAction("LogOff", "Account");
         }
 
         public IActionResult Error()

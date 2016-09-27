@@ -25,9 +25,9 @@ namespace For.SSO.AuthenticationManager
             _context.User = new IdentityPrincipal(idenConfig);
             return result;
         }
-        internal void SignOut(string schema)
+        public async Task SignOut(string schema)
         {
-            _context.Authentication.SignOutAsync(schema);
+            await _context.Authentication.SignOutAsync(schema);
         }
         internal List<Claim> GetClaims()
         {

@@ -9,9 +9,10 @@ namespace For.SSO.DB.Models
 {
     public partial class SSOEntities
     {
-        public SSOEntities(DbConnection conn):base(conn,true)
+        public SSOEntities(DbConnection conn):base(DBConfiguration.GetDBConnection(), true)
         {
 
         }
+
     }
 }
