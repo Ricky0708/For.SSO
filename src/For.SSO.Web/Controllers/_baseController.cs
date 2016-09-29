@@ -1,4 +1,4 @@
-﻿using For.SSO.AuthenticationManager;
+﻿using For.Authentication;
 using For.SSO.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;

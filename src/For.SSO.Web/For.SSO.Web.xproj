@@ -20,7 +20,7 @@
     <DnxInvisibleContent Include=".bowerrc" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\For.SSO.AuthenticationManager\For.SSO.AuthenticationManager.csproj" />
+    <ProjectReference Include="..\For.Authentication\For.Authentication.csproj" />
     <ProjectReference Include="..\For.SSO.DB\For.SSO.DB.csproj" />
     <ProjectReference Include="..\For.SSO.Services\For.SSO.Services.csproj" />
   </ItemGroup>

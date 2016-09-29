@@ -30,7 +30,7 @@
   "frameworks": {
     "net461": {
       "dependencies": {
-        "For.SSO.AuthenticationManager": {
+        "For.Authentication": {
           "target": "project"
         },
         "For.SSO.DB": {

@@ -167,9 +167,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\For.SSO.AuthenticationManager\For.SSO.AuthenticationManager.csproj">
-      <Project>{263f92c8-331f-402b-a5cf-368954a2969d}</Project>
-      <Name>For.SSO.AuthenticationManager</Name>
+    <ProjectReference Include="..\For.Authentication\For.Authentication.csproj">
+      <Project>{3816e0ba-39d4-4b6c-b805-d1f26186507a}</Project>
+      <Name>For.Authentication</Name>
     </ProjectReference>
     <ProjectReference Include="..\For.SSO.DB\For.SSO.DB.csproj">
       <Project>{e920837d-18c7-4fd1-b953-73d92a1798ec}</Project>

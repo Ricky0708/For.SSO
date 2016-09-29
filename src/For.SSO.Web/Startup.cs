@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 using For.SSO.Services.Repository;
 using For.SSO.Services;
 using Microsoft.AspNetCore.Http;
-using For.SSO.AuthenticationManager;
+using For.Authentication;
 
 namespace For.SSO.Web
 {
@@ -58,7 +58,6 @@ namespace For.SSO.Web
             {
                 app.UseExceptionHandler("/Errors/ErrorHandler");
                 app.UseStatusCodePagesWithReExecute("/Errors/ErrorStatusCode/{0}");
-                app.UseExceptionHandler("/Home/Error");
             }
             app.UseStaticFiles();
             //app.UseStatusCodePages();

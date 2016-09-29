@@ -7,7 +7,7 @@ using For.SSO.DB.Models;
 using For.SSO.Services.Repository;
 using For.SSO.Services;
 using Microsoft.AspNetCore.Authorization;
-using For.SSO.AuthenticationManager;
+using For.Authentication;
 
 namespace For.SSO.Web.Controllers
 {

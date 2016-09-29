@@ -8,7 +8,7 @@ using For.SSO.Services.Repository;
 using For.SSO.DB.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using For.SSO.AuthenticationManager;
+using For.Authentication;
 using Microsoft.AspNetCore.Diagnostics;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
