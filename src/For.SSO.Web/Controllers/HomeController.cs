@@ -13,9 +13,6 @@ namespace For.SSO.Web.Controllers
 {
     public class HomeController : _baseController
     {
-        public HomeController(IServiceProvider serviceProvider) : base(serviceProvider)
-        {
-        }
 
         [Authorize]
         public IActionResult Index()

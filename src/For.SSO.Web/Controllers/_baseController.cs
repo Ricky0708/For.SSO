@@ -13,6 +13,10 @@ namespace For.SSO.Web.Controllers
     {
         protected HttpContextService _contextService;
 
+        public _baseController()
+        {
+        }
+
         public _baseController(IServiceProvider serviceProvider)
         {
             _contextService = (HttpContextService)serviceProvider.GetService(typeof(HttpContextService));

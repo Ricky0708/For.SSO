@@ -28,8 +28,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Component", "Component", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "For.Authentication", "src\For.Authentication\For.Authentication.csproj", "{3816E0BA-39D4-4B6C-B805-D1F26186507A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "For.ClaimsFactory", "src\For.ClaimsFactory\For.ClaimsFactory.csproj", "{B79AB463-56F3-4566-A33E-ED1F09DD103C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,10 +58,6 @@ Global
 		{3816E0BA-39D4-4B6C-B805-D1F26186507A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3816E0BA-39D4-4B6C-B805-D1F26186507A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3816E0BA-39D4-4B6C-B805-D1F26186507A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B79AB463-56F3-4566-A33E-ED1F09DD103C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B79AB463-56F3-4566-A33E-ED1F09DD103C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B79AB463-56F3-4566-A33E-ED1F09DD103C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B79AB463-56F3-4566-A33E-ED1F09DD103C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,7 +72,6 @@ Global
 		{433D6D24-30F1-4DEC-AF24-691503AF3340} = {A3B9F46E-28BA-40AF-9137-AED1A80B00A8}
 		{59929CE4-18F4-42F4-9F9C-3C4738EF6946} = {A4D15DF1-9CE8-48A7-B25A-D4259295806B}
 		{3816E0BA-39D4-4B6C-B805-D1F26186507A} = {59929CE4-18F4-42F4-9F9C-3C4738EF6946}
-		{B79AB463-56F3-4566-A33E-ED1F09DD103C} = {59929CE4-18F4-42F4-9F9C-3C4738EF6946}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		VisualSVNWorkingCopyRoot = .

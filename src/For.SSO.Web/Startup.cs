@@ -35,6 +35,8 @@ namespace For.SSO.Web
             services.AddMvc();
             services.AddScoped<HttpContextService>();
             services.AddScoped<SignInManager>();
+            services.AddScoped<UserManager>();
+            services.AddScoped<IClaimsFactory, ClaimsFactory>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             //services.AddTransient(typeof(RepositoryHelper));
             //services.AddAuthorization(option=>option.AddPolicy("AA",policy=>policy.))
@@ -99,7 +101,7 @@ namespace For.SSO.Web
             });
 
             //custom middleware to replace httpContext.user
-            app.UseReplacePrincipal();
+            //app.UseReplacePrincipal();
 
         }
     }

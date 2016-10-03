@@ -22,26 +22,25 @@ namespace For.Authentication
         public async Task<SignInResult> SignIn(string schema, AuthenticationProperties properties, params ClaimsIdentity[] identities)
         {
             SignInResult result = new SignInResult();
-            IdentityClaims idenConfig = new IdentityClaims(_claimsFactory.GetClaims(), IdentityClaims.ExternalCookie);
-            await _context.Authentication.SignInAsync(schema, new IdentityPrincipal(idenConfig), properties);
-            result.Succeeded = true;
-            _context.User = new IdentityPrincipal(idenConfig);
+            ForClaims idenConfig = new ForClaims(_claimsFactory.GetClaims(), ForClaims.ExternalCookie);
+
+            //---加入驗證邏輯---
+            if (true)
+            {
+                await _context.Authentication.SignOutAsync(schema);
+                await _context.Authentication.SignInAsync(schema, new ForPrincipal(idenConfig), properties);
+                //_context.User = new ForPrincipal(idenConfig);
+                result.Succeeded = true;
+            }
+            else
+            {
+                result.Succeeded = false;
+            }
             return result;
         }
         public async Task SignOut(string schema)
         {
             await _context.Authentication.SignOutAsync(schema);
         }
-        //internal List<Claim> GetClaims()
-        //{
-        //    List<Claim> claims = new List<Claim>();
-        //    claims.Add(new Claim(IdentityClaims.UserIdClaimType, "1"));
-        //    claims.Add(new Claim(IdentityClaims.UserNameClaimType, "RickyClaim"));
-        //    claims.Add(new Claim(IdentityClaims.GroupsClaimType, "GroupA"));
-        //    claims.Add(new Claim(IdentityClaims.GroupsClaimType, "GroupB"));
-        //    claims.Add(new Claim(IdentityClaims.ProgramsClaimType, "ProgramA"));
-        //    claims.Add(new Claim(IdentityClaims.ProgramsClaimType, "ProgramB"));
-        //    return claims;
-        //}
     }
 }

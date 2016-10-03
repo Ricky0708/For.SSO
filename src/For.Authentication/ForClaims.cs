@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace For.Authentication
 {
-    public class IdentityClaims : ClaimsIdentity
+    public class ForClaims : ClaimsIdentity
     {
         public const string GroupsClaimType = "Security.Group";
         public const string UserIdClaimType = "Security.Id";
@@ -23,17 +23,17 @@ namespace For.Authentication
             }
         }
 
-        public IdentityClaims(IEnumerable<Claim> claims, string authenticationType)
+        public ForClaims(IEnumerable<Claim> claims, string authenticationType)
             : base(claims, authenticationType: authenticationType)
         {
         }
 
-        public IdentityClaims(IEnumerable<string> groups, string UserNo, int UserId, string UserName)
-        {
-            AddClaims(from @group in groups select new Claim(GroupsClaimType, @group));
-            AddClaim(new Claim(UserIdClaimType, UserId.ToString()));
-            AddClaim(new Claim(UserNameClaimType, UserName.ToString()));
-        }
+        //public IdentityClaims(IEnumerable<string> groups, string UserNo, int UserId, string UserName)
+        //{
+        //    AddClaims(from @group in groups select new Claim(GroupsClaimType, @group));
+        //    AddClaim(new Claim(UserIdClaimType, UserId.ToString()));
+        //    AddClaim(new Claim(UserNameClaimType, UserName.ToString()));
+        //}
 
 
         public IEnumerable<string> Groups { get { return from claim in FindAll(GroupsClaimType) select claim.Value; } }
