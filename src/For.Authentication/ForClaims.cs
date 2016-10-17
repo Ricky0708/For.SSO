@@ -28,17 +28,10 @@ namespace For.Authentication
         {
         }
 
-        //public IdentityClaims(IEnumerable<string> groups, string UserNo, int UserId, string UserName)
-        //{
-        //    AddClaims(from @group in groups select new Claim(GroupsClaimType, @group));
-        //    AddClaim(new Claim(UserIdClaimType, UserId.ToString()));
-        //    AddClaim(new Claim(UserNameClaimType, UserName.ToString()));
-        //}
-
-
         public IEnumerable<string> Groups { get { return from claim in FindAll(GroupsClaimType) select claim.Value; } }
 
         public string UserId { get { return FindFirst(UserIdClaimType).Value; } }
+
         public string UserName { get { return FindFirst(UserNameClaimType).Value; } }
     }
 }

@@ -32,15 +32,18 @@ namespace For.SSO.Web
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+            // Singleton：一個request 共用同一個物件
+            // Scoped：一個service衍生的物件如果遇到同樣的使用同一個物件
+            // transient：總是使用新的物件
+
             services.AddMvc();
-            services.AddScoped<HttpContextService>();
+            services.AddSingleton<HttpContextService>();
             services.AddScoped<SignInManager>();
             services.AddScoped<UserManager>();
             services.AddScoped<IClaimsFactory, ClaimsFactory>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             //services.AddTransient(typeof(RepositoryHelper));
             //services.AddAuthorization(option=>option.AddPolicy("AA",policy=>policy.))
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

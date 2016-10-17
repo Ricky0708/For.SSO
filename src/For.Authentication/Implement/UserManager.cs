@@ -15,5 +15,7 @@ namespace For.Authentication
         {
             _context = accessor.HttpContext;
         }
+
+
     }
 }
