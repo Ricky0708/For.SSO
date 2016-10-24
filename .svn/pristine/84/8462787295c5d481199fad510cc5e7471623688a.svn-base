@@ -57,7 +57,7 @@ namespace For.SSO.Web
                 app.UseDeveloperExceptionPage();
                 //app.UseExceptionHandler("/Errors/ErrorHandler");
                 app.UseStatusCodePagesWithReExecute("/Errors/ErrorStatusCode/{0}");
-                app.UseBrowserLink(); 
+                app.UseBrowserLink();
             }
             else
             {

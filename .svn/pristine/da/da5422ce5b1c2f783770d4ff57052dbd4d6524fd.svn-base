@@ -1,0 +1,26 @@
+﻿@model For.SSO.DB.Models.AccountViewModel
+
+
+<form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" asp-antiforgery="true" class="form-horizontal" role="form">
+    @*<div asp-validation-summary="All" class="text-danger"></div>*@
+
+    <div class="form-group">
+        <label asp-for="UserID" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="UserID" class="form-control" />
+            <span asp-validation-for="UserID" class="text-danger"></span>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="Password" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+    </div>
+    <button type="submit">確定</button>
+</form>
+
+
+

@@ -1,0 +1,608 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SSOModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AccountLogingHistory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccountID" Type="int" Nullable="false" />
+          <Property Name="LoginToken" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ProcType" Type="int" Nullable="false" />
+          <Property Name="Note" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Accounts">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="IsLock" Type="bit" Nullable="false" />
+          <Property Name="ErrorLoginTimes" Type="int" Nullable="false" />
+          <Property Name="UnlockDate" Type="datetime" />
+          <Property Name="IsAdmin" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Modules">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ModuleName" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="DisplayName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="ParentModuleID" Type="int" />
+          <Property Name="SystemID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Programs">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AreaName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ControllerName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ActionName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DisplayName" Type="nvarchar" MaxLength="20" />
+          <Property Name="IsShowInProgram" Type="bit" Nullable="false" />
+          <Property Name="ModuleID" Type="int" Nullable="false" />
+          <Property Name="SystemID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RoleAccountMaps">
+          <Key>
+            <PropertyRef Name="AccountID" />
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="AccountID" Type="int" Nullable="false" />
+          <Property Name="RoleID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RoleProgramMaps">
+          <Key>
+            <PropertyRef Name="ProgramID" />
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="ProgramID" Type="int" Nullable="false" />
+          <Property Name="RoleID" Type="int" Nullable="false" />
+          <Property Name="Auths" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="DisplayName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="SystemID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SystemsManager">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SystemName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DisplayName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Domain" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="RegID" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CookieTimeOut_Min" Type="int" Nullable="false" />
+          <Property Name="MaximumLoginErrorTimes" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AccountLogingHistory_Accounts">
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AccountLogingHistory" Type="Self.AccountLogingHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AccountLogingHistory">
+              <PropertyRef Name="AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Modules_Modules">
+          <End Role="Modules" Type="Self.Modules" Multiplicity="0..1" />
+          <End Role="Modules1" Type="Self.Modules" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modules">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Modules1">
+              <PropertyRef Name="ParentModuleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Modules_SystemsManager">
+          <End Role="SystemsManager" Type="Self.SystemsManager" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Modules" Type="Self.Modules" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemsManager">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Modules">
+              <PropertyRef Name="SystemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Programs_Modules">
+          <End Role="Modules" Type="Self.Modules" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Programs" Type="Self.Programs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modules">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Programs">
+              <PropertyRef Name="ModuleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleAccountMaps_Accounts">
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
+          <End Role="RoleAccountMaps" Type="Self.RoleAccountMaps" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RoleAccountMaps">
+              <PropertyRef Name="AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleAccountMaps_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="RoleAccountMaps" Type="Self.RoleAccountMaps" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RoleAccountMaps">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleProgramMaps_Programs">
+          <End Role="Programs" Type="Self.Programs" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RoleProgramMaps" Type="Self.RoleProgramMaps" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Programs">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RoleProgramMaps">
+              <PropertyRef Name="ProgramID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleProgramMaps_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="RoleProgramMaps" Type="Self.RoleProgramMaps" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RoleProgramMaps">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Roles_SystemsManager">
+          <End Role="SystemsManager" Type="Self.SystemsManager" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Roles" Type="Self.Roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemsManager">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Roles">
+              <PropertyRef Name="SystemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SSOModelStoreContainer">
+          <EntitySet Name="AccountLogingHistory" EntityType="Self.AccountLogingHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Accounts" EntityType="Self.Accounts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Modules" EntityType="Self.Modules" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Programs" EntityType="Self.Programs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoleAccountMaps" EntityType="Self.RoleAccountMaps" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoleProgramMaps" EntityType="Self.RoleProgramMaps" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SystemsManager" EntityType="Self.SystemsManager" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AccountLogingHistory_Accounts" Association="Self.FK_AccountLogingHistory_Accounts">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="AccountLogingHistory" EntitySet="AccountLogingHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Modules_Modules" Association="Self.FK_Modules_Modules">
+            <End Role="Modules" EntitySet="Modules" />
+            <End Role="Modules1" EntitySet="Modules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Modules_SystemsManager" Association="Self.FK_Modules_SystemsManager">
+            <End Role="SystemsManager" EntitySet="SystemsManager" />
+            <End Role="Modules" EntitySet="Modules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Programs_Modules" Association="Self.FK_Programs_Modules">
+            <End Role="Modules" EntitySet="Modules" />
+            <End Role="Programs" EntitySet="Programs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleAccountMaps_Accounts" Association="Self.FK_RoleAccountMaps_Accounts">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="RoleAccountMaps" EntitySet="RoleAccountMaps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleAccountMaps_Roles" Association="Self.FK_RoleAccountMaps_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="RoleAccountMaps" EntitySet="RoleAccountMaps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleProgramMaps_Programs" Association="Self.FK_RoleProgramMaps_Programs">
+            <End Role="Programs" EntitySet="Programs" />
+            <End Role="RoleProgramMaps" EntitySet="RoleProgramMaps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleProgramMaps_Roles" Association="Self.FK_RoleProgramMaps_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="RoleProgramMaps" EntitySet="RoleProgramMaps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Roles_SystemsManager" Association="Self.FK_Roles_SystemsManager">
+            <End Role="SystemsManager" EntitySet="SystemsManager" />
+            <End Role="Roles" EntitySet="Roles" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SSOModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AccountLogingHistory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountID" Type="Int32" Nullable="false" />
+          <Property Name="LoginToken" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProcType" Type="Int32" Nullable="false" />
+          <Property Name="Note" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Account" Relationship="Self.FK_AccountLogingHistory_Accounts" FromRole="AccountLogingHistory" ToRole="Accounts" />
+        </EntityType>
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IsLock" Type="Boolean" Nullable="false" />
+          <Property Name="ErrorLoginTimes" Type="Int32" Nullable="false" />
+          <Property Name="UnlockDate" Type="DateTime" Precision="3" />
+          <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="AccountLogingHistories" Relationship="Self.FK_AccountLogingHistory_Accounts" FromRole="Accounts" ToRole="AccountLogingHistory" />
+          <NavigationProperty Name="Roles" Relationship="Self.RoleAccountMaps" FromRole="Accounts" ToRole="Roles" />
+        </EntityType>
+        <EntityType Name="Module">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModuleName" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DisplayName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ParentModuleID" Type="Int32" />
+          <Property Name="SystemID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Modules1" Relationship="Self.FK_Modules_Modules" FromRole="Modules" ToRole="Modules1" />
+          <NavigationProperty Name="Module1" Relationship="Self.FK_Modules_Modules" FromRole="Modules1" ToRole="Modules" />
+          <NavigationProperty Name="SystemsManager" Relationship="Self.FK_Modules_SystemsManager" FromRole="Modules" ToRole="SystemsManager" />
+          <NavigationProperty Name="Programs" Relationship="Self.FK_Programs_Modules" FromRole="Modules" ToRole="Programs" />
+        </EntityType>
+        <EntityType Name="Program">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AreaName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ControllerName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ActionName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DisplayName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="IsShowInProgram" Type="Boolean" Nullable="false" />
+          <Property Name="ModuleID" Type="Int32" Nullable="false" />
+          <Property Name="SystemID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Module" Relationship="Self.FK_Programs_Modules" FromRole="Programs" ToRole="Modules" />
+          <NavigationProperty Name="RoleProgramMaps" Relationship="Self.FK_RoleProgramMaps_Programs" FromRole="Programs" ToRole="RoleProgramMaps" />
+        </EntityType>
+        <EntityType Name="RoleProgramMap">
+          <Key>
+            <PropertyRef Name="ProgramID" />
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="ProgramID" Type="Int32" Nullable="false" />
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <Property Name="Auths" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Program" Relationship="Self.FK_RoleProgramMaps_Programs" FromRole="RoleProgramMaps" ToRole="Programs" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_RoleProgramMaps_Roles" FromRole="RoleProgramMaps" ToRole="Roles" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DisplayName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SystemID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="RoleProgramMaps" Relationship="Self.FK_RoleProgramMaps_Roles" FromRole="Roles" ToRole="RoleProgramMaps" />
+          <NavigationProperty Name="SystemsManager" Relationship="Self.FK_Roles_SystemsManager" FromRole="Roles" ToRole="SystemsManager" />
+          <NavigationProperty Name="Accounts" Relationship="Self.RoleAccountMaps" FromRole="Roles" ToRole="Accounts" />
+        </EntityType>
+        <EntityType Name="SystemsManager">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SystemName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DisplayName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Domain" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RegID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CookieTimeOut_Min" Type="Int32" Nullable="false" />
+          <Property Name="MaximumLoginErrorTimes" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Modules" Relationship="Self.FK_Modules_SystemsManager" FromRole="SystemsManager" ToRole="Modules" />
+          <NavigationProperty Name="Roles" Relationship="Self.FK_Roles_SystemsManager" FromRole="SystemsManager" ToRole="Roles" />
+        </EntityType>
+        <Association Name="FK_AccountLogingHistory_Accounts">
+          <End Role="Accounts" Type="Self.Account" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AccountLogingHistory" Type="Self.AccountLogingHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AccountLogingHistory">
+              <PropertyRef Name="AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Modules_Modules">
+          <End Role="Modules" Type="Self.Module" Multiplicity="0..1" />
+          <End Role="Modules1" Type="Self.Module" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modules">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Modules1">
+              <PropertyRef Name="ParentModuleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Modules_SystemsManager">
+          <End Role="SystemsManager" Type="Self.SystemsManager" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Modules" Type="Self.Module" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemsManager">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Modules">
+              <PropertyRef Name="SystemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Programs_Modules">
+          <End Role="Modules" Type="Self.Module" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Programs" Type="Self.Program" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modules">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Programs">
+              <PropertyRef Name="ModuleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleProgramMaps_Programs">
+          <End Role="Programs" Type="Self.Program" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RoleProgramMaps" Type="Self.RoleProgramMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Programs">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RoleProgramMaps">
+              <PropertyRef Name="ProgramID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleProgramMaps_Roles">
+          <End Role="Roles" Type="Self.Role" Multiplicity="1" />
+          <End Role="RoleProgramMaps" Type="Self.RoleProgramMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RoleProgramMaps">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Roles_SystemsManager">
+          <End Role="SystemsManager" Type="Self.SystemsManager" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Roles" Type="Self.Role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemsManager">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Roles">
+              <PropertyRef Name="SystemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RoleAccountMaps">
+          <End Role="Accounts" Type="Self.Account" Multiplicity="*" />
+          <End Role="Roles" Type="Self.Role" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="SSOEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AccountLogingHistories" EntityType="Self.AccountLogingHistory" />
+          <EntitySet Name="Accounts" EntityType="Self.Account" />
+          <EntitySet Name="Modules" EntityType="Self.Module" />
+          <EntitySet Name="Programs" EntityType="Self.Program" />
+          <EntitySet Name="RoleProgramMaps" EntityType="Self.RoleProgramMap" />
+          <EntitySet Name="Roles" EntityType="Self.Role" />
+          <EntitySet Name="SystemsManagers" EntityType="Self.SystemsManager" />
+          <AssociationSet Name="FK_AccountLogingHistory_Accounts" Association="Self.FK_AccountLogingHistory_Accounts">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="AccountLogingHistory" EntitySet="AccountLogingHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Modules_Modules" Association="Self.FK_Modules_Modules">
+            <End Role="Modules" EntitySet="Modules" />
+            <End Role="Modules1" EntitySet="Modules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Modules_SystemsManager" Association="Self.FK_Modules_SystemsManager">
+            <End Role="SystemsManager" EntitySet="SystemsManagers" />
+            <End Role="Modules" EntitySet="Modules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Programs_Modules" Association="Self.FK_Programs_Modules">
+            <End Role="Modules" EntitySet="Modules" />
+            <End Role="Programs" EntitySet="Programs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleProgramMaps_Programs" Association="Self.FK_RoleProgramMaps_Programs">
+            <End Role="Programs" EntitySet="Programs" />
+            <End Role="RoleProgramMaps" EntitySet="RoleProgramMaps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleProgramMaps_Roles" Association="Self.FK_RoleProgramMaps_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="RoleProgramMaps" EntitySet="RoleProgramMaps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Roles_SystemsManager" Association="Self.FK_Roles_SystemsManager">
+            <End Role="SystemsManager" EntitySet="SystemsManagers" />
+            <End Role="Roles" EntitySet="Roles" />
+          </AssociationSet>
+          <AssociationSet Name="RoleAccountMaps" Association="Self.RoleAccountMaps">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="Roles" EntitySet="Roles" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SSOModelStoreContainer" CdmEntityContainer="SSOEntities">
+          <EntitySetMapping Name="AccountLogingHistories">
+            <EntityTypeMapping TypeName="SSOModel.AccountLogingHistory">
+              <MappingFragment StoreEntitySet="AccountLogingHistory">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+                <ScalarProperty Name="LoginToken" ColumnName="LoginToken" />
+                <ScalarProperty Name="ProcType" ColumnName="ProcType" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="SSOModel.Account">
+              <MappingFragment StoreEntitySet="Accounts">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="IsLock" ColumnName="IsLock" />
+                <ScalarProperty Name="ErrorLoginTimes" ColumnName="ErrorLoginTimes" />
+                <ScalarProperty Name="UnlockDate" ColumnName="UnlockDate" />
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Modules">
+            <EntityTypeMapping TypeName="SSOModel.Module">
+              <MappingFragment StoreEntitySet="Modules">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ModuleName" ColumnName="ModuleName" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="ParentModuleID" ColumnName="ParentModuleID" />
+                <ScalarProperty Name="SystemID" ColumnName="SystemID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Programs">
+            <EntityTypeMapping TypeName="SSOModel.Program">
+              <MappingFragment StoreEntitySet="Programs">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="AreaName" ColumnName="AreaName" />
+                <ScalarProperty Name="ControllerName" ColumnName="ControllerName" />
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="IsShowInProgram" ColumnName="IsShowInProgram" />
+                <ScalarProperty Name="ModuleID" ColumnName="ModuleID" />
+                <ScalarProperty Name="SystemID" ColumnName="SystemID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoleProgramMaps">
+            <EntityTypeMapping TypeName="SSOModel.RoleProgramMap">
+              <MappingFragment StoreEntitySet="RoleProgramMaps">
+                <ScalarProperty Name="ProgramID" ColumnName="ProgramID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="Auths" ColumnName="Auths" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="SSOModel.Role">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="SystemID" ColumnName="SystemID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SystemsManagers">
+            <EntityTypeMapping TypeName="SSOModel.SystemsManager">
+              <MappingFragment StoreEntitySet="SystemsManager">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SystemName" ColumnName="SystemName" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="Domain" ColumnName="Domain" />
+                <ScalarProperty Name="RegID" ColumnName="RegID" />
+                <ScalarProperty Name="CookieTimeOut_Min" ColumnName="CookieTimeOut_Min" />
+                <ScalarProperty Name="MaximumLoginErrorTimes" ColumnName="MaximumLoginErrorTimes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="RoleAccountMaps" TypeName="SSOModel.RoleAccountMaps" StoreEntitySet="RoleAccountMaps">
+            <EndProperty Name="Accounts">
+              <ScalarProperty Name="ID" ColumnName="AccountID" />
+            </EndProperty>
+            <EndProperty Name="Roles">
+              <ScalarProperty Name="ID" ColumnName="RoleID" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="無" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

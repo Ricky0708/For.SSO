@@ -36,6 +36,7 @@ namespace For.SSO.WebAPI
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
             app.UseMvc();
         }
     }
